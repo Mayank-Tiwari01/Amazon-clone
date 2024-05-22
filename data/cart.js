@@ -1,4 +1,4 @@
-export const cart = [
+export let cart = [
   {
     productId: "3ebe75dc-64d2-4137-8860-1f5a963e534b",
     quantity: 12
@@ -7,12 +7,16 @@ export const cart = [
 
 export function addToCart(productId, itemsSelectedValue) {
   let foundProduct = cart.find((item) => item.productId === productId);
-    if (foundProduct) {
-      foundProduct.quantity += itemsSelectedValue;
-    } else {
-      cart.push({
-        productId: productId,
-        quantity: itemsSelectedValue
-      });
-    }
+  if (foundProduct) {
+    foundProduct.quantity += itemsSelectedValue;
+  } else {
+    cart.push({
+      productId: productId,
+      quantity: itemsSelectedValue
+    });
+  }
+}
+
+export function deleteCartItem(id) {
+  cart = cart.filter((item) => id !== item.productId);
 }
