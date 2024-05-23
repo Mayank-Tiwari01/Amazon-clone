@@ -1,3 +1,4 @@
+
 export let cart = JSON.parse(localStorage.getItem('cart'));
 if (!cart) {
   cart = [{
@@ -26,4 +27,14 @@ export function addToCart(productId, itemsSelectedValue) {
 export function deleteCartItem(id) {
   cart = cart.filter((item) => id !== item.productId);
   saveCartItems()
+}
+
+export function updateCartQuantity(id, q) {
+  cart.forEach((item) => {
+    if (item.productId == id) {
+      item.quantity = q;
+      saveCartItems();
+      document.querySelector(`.quantity-label-${id}`).innerHTML = q;
+    }
+  })
 }
