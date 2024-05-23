@@ -1,4 +1,4 @@
-import { cart, deleteCartItem, updateCartQuantity} from "../data/cart.js";
+import { cart, deleteCartItem, updateCartQuantity, totalCartQuantity} from "../data/cart.js";
 import { products } from "../data/products.js";
 
 function generateCartHTML() {
@@ -95,6 +95,7 @@ function generateCartHTML() {
 
   document.querySelector('.order-summary-js').innerHTML = checkoutHTML;
   attachDeleteEventListeners();
+  update ();
 }
 generateCartHTML();
 function attachDeleteEventListeners() {
@@ -108,6 +109,7 @@ function attachDeleteEventListeners() {
 
       let container = document.querySelector(`.js-item-container-${id}`);
       container.remove();
+      update ();
     });
   });
 }
@@ -122,21 +124,37 @@ document.querySelectorAll('.js-update-link')
         `.js-item-container-${productId}`
       );
       container.classList.add('is-editing-quantity');
+
+      //so that even enter can save values/
+      const box = document.querySelector(`.insert-input-${productId}`);
+      let val = box.value;
+      box.addEventListener('change', () => handleSaveClick(link));
     });
   });
 
 
-//when save button is pressed the quantity is updated.
+//takes input of quantity and updates.
 document.querySelectorAll('.save-quantity-link').forEach((link) => {
   link.addEventListener('click', () => {
-    const productId = link.dataset.productId;
-      const container = document.querySelector(
-        `.js-item-container-${productId}`
-      );
-      container.classList.remove('is-editing-quantity');
-
-      const box = document.querySelector(`.insert-input-${productId}`);
-      let val = box.value;
-      updateCartQuantity(productId, val);
+    handleSaveClick(link);
   })
 })
+
+function handleSaveClick (link) {
+  const productId = link.dataset.productId;
+  const container = document.querySelector(
+    `.js-item-container-${productId}`
+  );
+  container.classList.remove('is-editing-quantity');
+
+  const box = document.querySelector(`.insert-input-${productId}`);
+  let val = box.value;
+  updateCartQuantity(productId, val);
+  update ()
+}
+
+//update total cart value
+function update () {
+ 
+  document.querySelector('.return-to-home-link').innerHTML =  totalCartQuantity();
+}

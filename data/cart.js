@@ -30,6 +30,7 @@ export function deleteCartItem(id) {
 }
 
 export function updateCartQuantity(id, q) {
+  
   cart.forEach((item) => {
     if (item.productId == id) {
       item.quantity = q;
@@ -38,3 +39,14 @@ export function updateCartQuantity(id, q) {
     }
   })
 }
+
+export function totalCartQuantity() {
+  let total = 0;
+  cart.forEach((item) => {
+    console.log(item.quantity)
+    total += parseInt(item.quantity);
+  });
+  return total;
+}
+
+
