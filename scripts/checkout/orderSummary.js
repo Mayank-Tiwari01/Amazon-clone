@@ -2,6 +2,7 @@ import { cart, deleteCartItem, updateCartQuantity, totalCartQuantity, updateDeli
 import { products } from "../../data/products.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOption } from '../../data/deliveryOptions.js';
+import { calculatePayment } from "./paymentSummary.js";
 
 export function generateCartHTML() {
     let checkoutHTML = '';
@@ -57,6 +58,7 @@ export function generateCartHTML() {
         let container = document.querySelector(`.js-item-container-${id}`);
         container.remove();
         update();
+        calculatePayment();
       });
     });
   }
@@ -87,8 +89,12 @@ export function generateCartHTML() {
     container.classList.remove('is-editing-quantity');
     const box = document.querySelector(`.insert-input-${productId}`);
     let val = box.value;
-    updateCartQuantity(productId, val);
-    update();
+    if (val > 100) alert("Please enter a value less than 100")
+    else {
+      updateCartQuantity(productId, val);
+      update();
+      calculatePayment();
+    }
   }
 
   function attachDeliveryOptionListeners() {
@@ -97,6 +103,7 @@ export function generateCartHTML() {
         let { productId, deliveryId } = element.dataset;
         updateDelivery(productId, deliveryId);
          generateCartHTML();
+         calculatePayment();
       });
     });
   }
