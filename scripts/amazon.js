@@ -43,8 +43,9 @@ products.forEach((product) => {
       </select>
     </div>
 
+   
     <div class="product-spacer"></div>
-
+     ${product.generateSizeChartIMG()}
     <div class="added-to-cart added-to-cart-js-${product.id}"  >
       <img src="images/icons/checkmark.png">
       Added
