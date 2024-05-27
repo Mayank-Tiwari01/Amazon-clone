@@ -1,6 +1,7 @@
 import { cart, totalCartQuantity } from "../../data/cart.js";
 import { deliveryOption } from "../../data/deliveryOptions.js";
 import { products } from "../../data/products.js";
+import { addOrder } from "../../data/orders.js";
 
 export function calculatePayment() {
   const updateInnerHTML = (selector, value) => {
@@ -49,4 +50,27 @@ export function calculatePayment() {
   // Calculate and show final price
   const finalPrice = priceBeforeTax + (tax * 100);
   updateInnerHTML('.js-final-payment', `$${(finalPrice / 100).toFixed(2)}`);
+
+  // Place order function moved outside the calculatePayment function
+  document.querySelector('.js-place-order').addEventListener('click', async () => {
+      try {
+      const response = await fetch('https://supersimplebackend.dev/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cart })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const order = await response.json();
+      addOrder(order);
+      window.location.href = 'orders.html';
+    } catch (error) {
+      console.error('Failed to place order:', error);
+    }
+  });
 }

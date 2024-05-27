@@ -88,7 +88,7 @@ export function generateCartHTML() {
     const container = document.querySelector(`.js-item-container-${productId}`);
     container.classList.remove('is-editing-quantity');
     const box = document.querySelector(`.insert-input-${productId}`);
-    let val = box.value;
+    let val = parseInt(box.value);
     if (val > 100) alert("Please enter a value less than 100")
     else {
       updateCartQuantity(productId, val);
