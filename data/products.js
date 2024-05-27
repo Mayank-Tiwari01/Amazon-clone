@@ -37,6 +37,31 @@ class Clothing extends Product {
 export let products = [];
 
 export function fetchProducts(renderProductsGrid) {
+  fetch('https://supersimplebackend.dev/products')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      products = data.map((productDetails) => {
+        if (productDetails.type === 'clothing') {
+          return new Clothing(productDetails);
+        }
+        return new Product(productDetails);
+      });
+    })
+    .then(() => {
+      renderProductsGrid();
+    })
+    .catch((error) => {
+      console.error('Failed to fetch products:', error);
+    });
+}
+
+/*
+export function fetchProducts(renderProductsGrid) {
   const xhr = new XMLHttpRequest();
 
   xhr.addEventListener("load", () => {
@@ -56,7 +81,7 @@ export function fetchProducts(renderProductsGrid) {
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
-
+*/
 /*
 
 export const products = [
