@@ -14,13 +14,13 @@ class Product {
   }
 
   getRating() {
-    return `images/ratings/rating-${this.rating.stars * 10}.png`
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
+
   generateSizeChartIMG() {
     return '';
   }
 }
-
 
 class Clothing extends Product {
   sizeChartLink;
@@ -31,7 +31,7 @@ class Clothing extends Product {
   }
 
   generateSizeChartIMG() {
-    return `<a href="${this.sizeChartLink}" target = "_blank">Size chart</a>`
+    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`;
   }
 }
 
@@ -56,15 +56,15 @@ export async function fetchProducts(renderProductsGrid) {
   }
 }
 
-export function getProduct (proID) {
+export function getProduct(proID) {
   let foundIt;
   products.forEach((pro) => {
-    if (pro.id == proID)
+    if (pro.id == proID) {
       foundIt = pro;
-  })
+    }
+  });
   return foundIt;
 }
-
 
 
 
