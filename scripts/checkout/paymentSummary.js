@@ -69,6 +69,7 @@ export function calculatePayment() {
       const order = await response.json();
       addOrder(order);
       window.location.href = 'orders.html';
+      console.log(order);
     } catch (error) {
       console.error('Failed to place order:', error);
     }

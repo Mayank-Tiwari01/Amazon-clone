@@ -8,7 +8,7 @@ class Product {
   constructor(details) {
     this.id = details.id;
     this.image = details.image;
-    this.name = details.image;
+    this.name = details.name;
     this.rating = details.rating;
     this.priceCents = details.priceCents;
   }
@@ -20,6 +20,7 @@ class Product {
     return '';
   }
 }
+
 
 class Clothing extends Product {
   sizeChartLink;
@@ -36,30 +37,51 @@ class Clothing extends Product {
 
 export let products = [];
 
-export function fetchProducts(renderProductsGrid) {
-  fetch('https://supersimplebackend.dev/products')
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+export async function fetchProducts(renderProductsGrid) {
+  try {
+    const response = await fetch('https://supersimplebackend.dev/products');
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    products = data.map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
       }
-      return response.json();
-    })
-    .then((data) => {
-      products = data.map((productDetails) => {
-        if (productDetails.type === 'clothing') {
-          return new Clothing(productDetails);
-        }
-        return new Product(productDetails);
-      });
-    })
-    .then(() => {
-      renderProductsGrid();
-    })
-    .catch((error) => {
-      console.error('Failed to fetch products:', error);
+      return new Product(productDetails);
     });
+    renderProductsGrid();
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+  }
 }
 
+export function getProduct (proID) {
+  let foundIt;
+  products.forEach((pro) => {
+    if (pro.id == proID)
+      foundIt = pro;
+  })
+  return foundIt;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 /*
 export function fetchProducts(renderProductsGrid) {
   const xhr = new XMLHttpRequest();
