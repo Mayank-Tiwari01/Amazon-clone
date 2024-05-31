@@ -26,7 +26,7 @@ This project is a clone of the Amazon website built using HTML, CSS, and Vanilla
    cd Amazon-clone
    ```
 
-3. Open `amazon.html` in your web browser.
+3. Open `index.html` in your web browser.
 
 ## Usage
 
